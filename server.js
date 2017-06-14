@@ -39,6 +39,7 @@ app.post('/blog-post', jsonParser, (req, res) => {
   res.status(201).json(item);
 });
 
+//test
 // when PUT request comes in with updated item, ensure has
 // required fields. also ensure that item id in url path, and
 // item id in updated item object match. if problems with any
