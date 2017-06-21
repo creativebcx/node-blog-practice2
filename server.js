@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-const blogPostsRouter = require('./blogPostsRouter');
+const blogPostsRouter = require('./blogPostRouter');
 
 app.use(morgan('common'));
 /* old listening function
@@ -14,7 +14,7 @@ app.listen(process.env.PORT || 8080, () => {
 */
 
 // blog posts router
-app.use('/blog-posts', blogPostRouter);
+app.use('/blog-posts', blogPostsRouter);
 
 let server;
 

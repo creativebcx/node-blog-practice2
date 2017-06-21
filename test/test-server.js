@@ -7,7 +7,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('blog-post', function() {
+describe('blog-posts', function() {
   
   before(function() {
     return runServer();
