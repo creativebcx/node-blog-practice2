@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 describe('blog-posts', function() {
   
-  before(function() {
+  /*before(function() {
     return runServer();
   });
 
@@ -19,7 +19,7 @@ describe('blog-posts', function() {
   // `runServer` will error out.
   after(function() {
     return closeServer();
-  });
+  });*/
   // `chai.request.get` is an asynchronous operation. When
   // using Mocha with async operations, we need to either
   // return an ES6 promise or else pass a `done` callback to the
