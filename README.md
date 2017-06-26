@@ -1,4 +1,4 @@
-Shopping list v4
+Blog Posts Mongo & Mongoose Practice
 ================
 
-https://github.com/Thinkful-Ed/node-shopping-list-v4
+https://github.com/creativebcx/node-blog-practice2
