@@ -5,13 +5,15 @@ const morgan = require('morgan');
 const blogPostsRouter = require('./blogPostRouter');
 
 app.use(morgan('common'));
-/* old listening function
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`Your app is listening on port ${process.env.PORT || 8080}`);
-});
+// mongoose 
+const mongoose = require('mongoose');
 
-*/
+mongoose.Promise = global.Promise;
+
+// constricting a variable - deconstructing the variable into two variables so that you can export
+const {PORT, DATABASE_URL} = require('./config');
+const {BlogDb} = require('./models');
 
 // blog posts router
 app.use('/blog-posts', blogPostsRouter);
@@ -19,16 +21,23 @@ app.use('/blog-posts', blogPostsRouter);
 let server;
 
 // run server function
-function runServer() {
-  const port = process.env.PORT || 8080;
+function runServer(databaseUrl=DATABASE_URL, port=PORT) {
   return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, err => {
+      if (err) {
+        return reject(err);
+      }
+    
     server = app.listen(port, () => {
-      console.log('Your app os listening on port ${port}');
-      resolve(server);
-    }).on('error', err => {
-      reject(err)
+      console.log('Your app is listening on port ${port}');
+    resolve();
+  })
+  .on('error', err => {
+    mongoose.disconnect();
+    reject(err);
     });
   });
+});
 }
 
 function closeServer() {
