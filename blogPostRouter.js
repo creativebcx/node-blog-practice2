@@ -71,31 +71,25 @@ router.post('/', jsonParser, (req, res) => {
 });
 
 router.put('/:id', jsonParser, (req, res) => {
-  const requiredFields = ['title', 'content', 'author', 'publishDate'];
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({
+      error: 'Request path id and request body id values must match'
+      });  
     }
-  }
-  if (req.params.id !== req.body.id) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id `
-      `(${req.body.id}) must match`);
-    console.error(message);
-    return res.status(400).send(message);
-  }
-  console.log(`Updating blog post \`${req.params.id}\``);
-  BlogPost.update({
-    id: req.params.id,
-    title: req.body.title,
-    content: req.body.content,
-    author: req.body.author,
-    publishDate: req.body.publishDate
+  
+  const updated = {};
+  const updateableFields = ['title', 'content', 'author'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      update[field] = req.body[field];
+    }
   });
-  res.status(204).end();
+  
+  BlogPost
+    .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+    .exec()
+    .then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
+    .catch(err => res.status(500).json({message: 'Something went wrong'}));
 });
 
 router.delete('/:id', (req, res) => {
@@ -104,5 +98,24 @@ router.delete('/:id', (req, res) => {
   res.status(204).end();
 });
 
+app.use('*', function(req, res) {
+  res.status(404).json({message: 'Not Found'});
+});
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
