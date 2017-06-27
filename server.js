@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
+const {PORT, DATABASE_URL} = require('./config');
+const {BlogDb} = require('./models');
+
 const blogPostsRouter = require('./blogPostRouter');
 
 app.use(morgan('common'));
@@ -11,8 +14,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const {PORT, DATABASE_URL} = require('./config');
-const {BlogDb} = require('./models');
+
 
 // blog posts router
 app.use('/blog-posts', blogPostsRouter);
