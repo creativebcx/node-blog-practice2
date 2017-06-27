@@ -11,7 +11,6 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-// constricting a variable - deconstructing the variable into two variables so that you can export
 const {PORT, DATABASE_URL} = require('./config');
 const {BlogDb} = require('./models');
 
