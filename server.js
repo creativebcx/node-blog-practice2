@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-const {PORT, DATABASE_URL} = require('./config');
+const {DATABASE_URL, PORT} = require('./config');
 const {BlogDb} = require('./models');
 
 const blogPostsRouter = require('./blogPostRouter');
