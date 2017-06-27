@@ -21,10 +21,10 @@ router.get('/', (req, res) => {
     .find()
     .limit(10)
     .exec()
-    .then(blogPosts => {
+    .then(BlogPosts => {
       res.json({
-        blogPosts: blogPosts.map(
-          (blogPost) => blogPost.apiRepr())
+        BlogPosts: BlogPosts.map(
+          (BlogPost) => BlogPost.apiRepr())
       });
     })
     .catch(
@@ -62,7 +62,7 @@ router.post('/', jsonParser, (req, res) => {
       content: req.body.content,
       author: req.body.author
     })
-    .then(blogPost => res.status(201).json(blogPost.apiRepr()))
+    .then(BlogPost => res.status(201).json(BlogPost.apiRepr()))
     .catch(err => {
         console.error(err);
         res.status(500).json({error: 'Somthing went wrong'});
@@ -93,9 +93,14 @@ router.put('/:id', jsonParser, (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  BlogPost.delete(req.params.id);
-  console.log(`Deleted blog post \`${req.params.ID}\``);
-  res.status(204).end();
+  BlogPost
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => {
+      console.log('Blog post deleted');
+      res.status(204).end();
+    })
+    .catch(err => res.status(500).json({message: 'Something went wrong'}));
 });
 
 app.use('*', function(req, res) {
